@@ -1,37 +1,44 @@
 #include <iostream>
-#include <algorithm>
-#include <set>
 #include <queue>
+#include <algorithm>
 
 using namespace std;
+
 int main(){
     int testCase=0;
-    int N,M;
     cin>>testCase;
+    int n,m;
     for(int i=0;i<testCase;i++){
-        int count=0;
-        queue<pair<int,int> > q;
-        priority_queue<int> pq;
-        cin>>N>>M;
-        for(int index=0;index<N;index++){
-            int priority=0;
-            cin>>priority;
-            pq.push(priority);
-            q.push(pair<int,int>(priority,index));
+        int count=1;
+        int target=0;
+        cin>>n>>m;
+        queue <pair<int,int> > valueQueue;
+        for(int j=0;j<n;j++){
+            int temp=0;
+            cin>>temp;
+            if(j==m) target=temp;
+            valueQueue.push(pair<int,int> (temp,j));
         }
-        while (!q.empty()){
-            int a=q.front().first;
-            int index=q.front().second;
-            q.pop();
-            if(pq.top()==a){
-                pq.pop();
-                count++;
-                if(index==M){
-                    cout<<count<<endl;
-                    break;
-                }
+        for(int j=9;j>0;j--){
+            int size=valueQueue.size();
+            for(int tmp=0;tmp<size;tmp++){
+                int temp=valueQueue.front().first;
+                int index=valueQueue.front().second;
+                //cout<<size<<" "<<j<<" "<<temp<<" "<<index<<endl;
+                valueQueue.pop();
+                if(temp<j){
+                    valueQueue.push(pair<int,int> (temp,index));
+                }else if(temp==j){
+                    if(index==m){
+                        cout<<count<<endl;
+                        break;
+                    }else if(target!=j){
+            
+                        tmp=size;
+                    }
+                       count++;
+                } 
             }
-            else q.push(pair<int,int>(a,index));
         }
     }
 }
